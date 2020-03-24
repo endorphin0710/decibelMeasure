@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.decibelmeasure.util.Constants;
+
 public class OffsetDialog extends DialogFragment implements View.OnClickListener{
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener listener;
     private View btnCancel;
     private View btnApply;
     private TextView textStatus;
@@ -25,7 +27,7 @@ public class OffsetDialog extends DialogFragment implements View.OnClickListener
     public static OffsetDialog newInstance(double offset) {
         OffsetDialog fragment = new OffsetDialog();
         Bundle arguments = new Bundle();
-        arguments.putDouble("OFFSET", offset);
+        arguments.putDouble(Constants.ARG_KEY_OFFSET, offset);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -43,8 +45,8 @@ public class OffsetDialog extends DialogFragment implements View.OnClickListener
         textStatus = rootView.findViewById(R.id.textStatus);
         textOffset = rootView.findViewById(R.id.offsetValue);
 
-        if (getArguments().containsKey("OFFSET")) {
-            double offsetValue = getArguments().getDouble("OFFSET");
+        if (getArguments().containsKey(Constants.ARG_KEY_OFFSET)) {
+            double offsetValue = getArguments().getDouble(Constants.ARG_KEY_OFFSET);
             textOffset.setText(Double.toString(offsetValue));
         }
 
@@ -59,7 +61,7 @@ public class OffsetDialog extends DialogFragment implements View.OnClickListener
         switch(v.getId()){
             case R.id.btnCancel:
                 try{
-                    mListener.onChoice(0, 0.0);
+                    listener.onChoice(0, 0.0);
                 }catch(NumberFormatException e){
                     e.printStackTrace();
                 }
@@ -68,7 +70,7 @@ public class OffsetDialog extends DialogFragment implements View.OnClickListener
                 try{
                     double offset_value = Double.parseDouble(textOffset.getText().toString());
                     offset_value = roundToOneDecimalPlace(offset_value);
-                    mListener.onChoice(1, offset_value);
+                    listener.onChoice(1, offset_value);
                 }catch(NumberFormatException e){
                     e.printStackTrace();
                 }
@@ -79,7 +81,7 @@ public class OffsetDialog extends DialogFragment implements View.OnClickListener
     }
 
     public void updateDecibel(double db){
-        textStatus.setText(Double.toString(db) + " dB");
+        textStatus.setText(Double.toString(db) + Constants.DECIBEL_UNIT);
     }
 
     private double roundToOneDecimalPlace(double val){
@@ -90,7 +92,7 @@ public class OffsetDialog extends DialogFragment implements View.OnClickListener
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if(context instanceof OnFragmentInteractionListener){
-            mListener = (OnFragmentInteractionListener) context;
+            listener = (OnFragmentInteractionListener) context;
         }else{
             throw new ClassCastException(context.toString() + "must implement OnFragmentInteractionListener");
         }

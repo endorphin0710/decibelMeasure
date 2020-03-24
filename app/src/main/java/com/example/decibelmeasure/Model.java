@@ -9,6 +9,7 @@ public class Model implements Contract.Model{
 
     @Override
     public void saveOffset(Context context, double val) {
+        /** save offset value to shared preferences **/
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putFloat("OFFSET", (float)val);
@@ -17,6 +18,7 @@ public class Model implements Contract.Model{
 
     @Override
     public double retrieveOffset(Context context) {
+        /** get offset value from shared preferences **/
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         return sharedPreferences.getFloat("OFFSET", 0.0f);
     }

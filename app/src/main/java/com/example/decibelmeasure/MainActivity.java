@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, Of
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
         presenter = new Presenter(this);
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements Contract.View, Of
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("hehe", "onPause: ");
         if(presenter.isStarted()){
             presenter.measureStop();
         }
@@ -71,8 +71,10 @@ public class MainActivity extends AppCompatActivity implements Contract.View, Of
                 /** on permission granted **/
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     presenter.measureStart();
-                } else {
-                    /** alert ? **/
+                }
+                /** on permission denied **/
+                else {
+                    Toast.makeText(getApplicationContext(), Constants.PERMISSION_WARNING, Toast.LENGTH_LONG).show();
                 }
                 return;
             }
