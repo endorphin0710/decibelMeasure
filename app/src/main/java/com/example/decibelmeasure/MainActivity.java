@@ -3,6 +3,7 @@ package com.example.decibelmeasure;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements Contract.View, Of
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d("hehe", "onPause: ");
         if(presenter.isStarted()){
             presenter.measureStop();
         }
@@ -57,9 +59,9 @@ public class MainActivity extends AppCompatActivity implements Contract.View, Of
     @Override
     protected void onResume() {
         super.onResume();
-        if(presenter.isStarted()){
-            presenter.measureStart();
-        }
+//        if(presenter.isStarted()){
+//            presenter.measureStart();
+//        }
     }
 
     @Override
